@@ -1,9 +1,9 @@
 package eatnrun.entities;
 
+import eatnrun.Entity;
 import gui.Window;
 
 public class Block extends Entity {
-
   public Block(int x, int y) {
     super(x, y, 40, 40);
   }

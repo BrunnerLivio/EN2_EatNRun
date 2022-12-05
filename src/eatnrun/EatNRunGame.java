@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import eatnrun.entities.Block;
+import eatnrun.entities.Monster;
 import eatnrun.entities.Player;
 import gui.Window;
 
@@ -12,12 +13,14 @@ public class EatNRunGame {
   private int height;
   private Player player;
   private List<Block> blocks;
+  private List<Monster> monsters;
 
   public EatNRunGame(int width, int height) {
     this.width = width;
     this.height = height;
     this.player = new Player(40, 85);
-    this.blocks = Arrays.asList(new Block(40, 40), new Block(120, 120), new Block(160, 120));
+    this.blocks = Arrays.asList(new Block(40, 40), new Block(120, 120), new Block(160, 120), new Block(240, 160), new Block(0, 160));
+    this.monsters = Arrays.asList(new Monster(160, 160, 5, 0));
   }
 
   public void handleEvents(Window window) {
@@ -45,6 +48,14 @@ public class EatNRunGame {
   }
 
   public void step(Window window) {
+    monsters.forEach(monster -> {
+      if (blocks.stream().anyMatch(block -> block.intersects(monster))) {
+        monster.bounce();
+      }
+      monster.step();
+
+    });
+
     // ball.step();
     // if (west.intersects(ball)) {
     // System.out.println("kol west");
@@ -79,6 +90,7 @@ public class EatNRunGame {
     window.setFontSize(40);
     player.draw(window);
     blocks.forEach(block -> block.draw(window));
+    monsters.forEach(monster -> monster.draw(window));
     // window.drawStringCentered(scoreLeft + ":" + scoreRight, width * 0.5, PADDING
     // + 60);
 

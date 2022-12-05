@@ -1,4 +1,4 @@
-package eatnrun.entities;
+package eatnrun;
 
 import gui.Window;
 
@@ -48,6 +48,10 @@ public abstract class Entity {
 
   public boolean intersectsEast(Entity other) {
     return x + width / 2 >= other.x - other.width / 2;
+  }
+
+  public boolean intersects(Entity other) {
+    return intersects(other, 0, 0);
   }
 
   public boolean intersects(Entity other, int xOffset, int yOffset) {
