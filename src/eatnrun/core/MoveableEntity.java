@@ -1,4 +1,4 @@
-package eatnrun;
+package eatnrun.core;
 
 import gui.Window;
 

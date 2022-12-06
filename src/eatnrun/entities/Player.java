@@ -1,6 +1,6 @@
 package eatnrun.entities;
 
-import eatnrun.MoveableEntity;
+import eatnrun.core.MoveableEntity;
 import gui.Window;
 
 public class Player extends MoveableEntity {

@@ -1,6 +1,6 @@
 package eatnrun.entities;
 
-import eatnrun.Entity;
+import eatnrun.core.Entity;
 import gui.Window;
 
 public class Finish extends Entity {
@@ -13,7 +13,4 @@ public class Finish extends Entity {
   public void draw(Window window) {
     window.drawImageCentered("resources/images/finish.png", x, y);
   }
-
-
-
 }

@@ -1,4 +1,4 @@
-package eatnrun;
+package eatnrun.core;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -63,6 +63,12 @@ public class Level {
         break;
       case 'N':
         monsters.add(new Monster(x, y, 0, -2));
+        break;
+      case 'S':
+        monsters.add(new Monster(x, y, 0, 2));
+        break;
+      case 'W':
+        monsters.add(new Monster(x, y, -2, 0));
         break;
       case 'C':
         cakes.add(new Cake(x, y));

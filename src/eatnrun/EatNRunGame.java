@@ -6,11 +6,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import eatnrun.core.Level;
 import eatnrun.entities.Block;
 import eatnrun.entities.Cake;
 import eatnrun.entities.Finish;
 import eatnrun.entities.Monster;
 import eatnrun.entities.Player;
+import eatnrun.util.Sound;
 import gui.Window;
 
 public class EatNRunGame {

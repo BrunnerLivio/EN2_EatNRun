@@ -1,4 +1,4 @@
-package eatnrun;
+package eatnrun.util;
 
 import java.io.File;
 import java.util.concurrent.CountDownLatch;

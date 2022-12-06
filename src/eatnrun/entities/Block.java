@@ -1,6 +1,6 @@
 package eatnrun.entities;
 
-import eatnrun.Entity;
+import eatnrun.core.Entity;
 import gui.Window;
 
 public class Block extends Entity {
