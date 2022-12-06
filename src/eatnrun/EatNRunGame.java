@@ -95,8 +95,10 @@ public class EatNRunGame {
       if (monster.intersects(player)) {
         if (lives > 1) {
           lives--;
+          Sound.playSound(Sound.DIE);
         } else {
           status = GameStatus.LOST;
+          Sound.playSound(Sound.GAME_OVER);
           return;
         }
 
@@ -109,6 +111,7 @@ public class EatNRunGame {
     for (Cake cake : cakes) {
       if (cake.intersects(player)) {
         currentLevel.removeCake(cake);
+        Sound.playSound(Sound.SLURP);
         score++;
       }
     }
@@ -116,8 +119,10 @@ public class EatNRunGame {
     if (finish.intersects(player)) {
       if (currentLevel.getLevelNum() + 1 > getNumberOfLevels()) {
         status = GameStatus.WON;
+        Sound.playSound(Sound.SUCCESS);
         return;
       } else {
+        Sound.playSound(Sound.NEW_LEVEL);
         startLevel(currentLevel.getLevelNum() + 1);
       }
     }
@@ -158,7 +163,7 @@ public class EatNRunGame {
         case LOST:
           window.setColor(0, 0, 0);
           window.setFontSize(40);
-          window.drawStringCentered("You Lost!",  WINDOW_WIDTH * 0.5, WINDOW_HEIGHT * 0.5);
+          window.drawStringCentered("You Lost!", WINDOW_WIDTH * 0.5, WINDOW_HEIGHT * 0.5);
           break;
       }
 
