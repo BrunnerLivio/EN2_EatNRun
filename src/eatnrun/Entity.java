@@ -8,10 +8,14 @@ public abstract class Entity {
   protected int y;
   protected int height;
   protected int width;
+  private int initialX;
+  private int initialY;
 
   public Entity(int x, int y, int width, int height) {
     this.x = x + width / 2;
     this.y = y + height / 2;
+    this.initialX = this.x;
+    this.initialY = this.y;
     this.height = height;
     this.width = width;
   }
@@ -32,22 +36,9 @@ public abstract class Entity {
     return width;
   }
 
-  abstract public void draw(Window window);
-
-  public boolean collidesNorth(Entity other) {
-    return y - height / 2 < other.y + other.height / 2;
-  }
-
-  public boolean collidesSouth(Entity other) {
-    return y + height / 2 > other.y - other.height / 2;
-  }
-
-  public boolean intersectsWest(Entity other) {
-    return x - width / 2 <= other.x + other.width / 2;
-  }
-
-  public boolean intersectsEast(Entity other) {
-    return x + width / 2 >= other.x - other.width / 2;
+  public void resetPosition() {
+    x = initialX;
+    y = initialY;
   }
 
   public boolean intersects(Entity other) {
@@ -60,4 +51,6 @@ public abstract class Entity {
         y - height / 2 < other.y + yOffset + other.height / 2 &&
         y + height / 2 > other.y + yOffset - height / 2;
   }
+
+  abstract public void draw(Window window);
 }

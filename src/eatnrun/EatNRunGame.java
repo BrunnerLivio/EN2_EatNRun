@@ -13,13 +13,19 @@ public class EatNRunGame {
   private int height;
   private Player player;
   private List<Block> blocks;
+  private final int GRID_SIZE = 40;
   private List<Monster> monsters;
+  private int lives = 3;
+  private int cakes = 0;
+  private int level = 0;
 
   public EatNRunGame(int width, int height) {
     this.width = width;
     this.height = height;
-    this.player = new Player(40, 85);
-    this.blocks = Arrays.asList(new Block(40, 40), new Block(120, 120), new Block(160, 120), new Block(240, 160), new Block(0, 160));
+    this.player = new Player(GRID_SIZE, GRID_SIZE * 2);
+    this.blocks = Arrays.asList(new Block(GRID_SIZE, GRID_SIZE), new Block(GRID_SIZE * 3, GRID_SIZE * 3),
+        new Block(GRID_SIZE * 4, GRID_SIZE * 3), new Block(GRID_SIZE * 5, GRID_SIZE * 4),
+        new Block(0, GRID_SIZE * 4));
     this.monsters = Arrays.asList(new Monster(160, 160, 5, 0));
   }
 
@@ -52,8 +58,13 @@ public class EatNRunGame {
       if (blocks.stream().anyMatch(block -> block.intersects(monster))) {
         monster.bounce();
       }
-      monster.step();
 
+      if (monster.intersects(player)) {
+        lives--;
+        player.resetPosition();
+      }
+
+      monster.step();
     });
 
     // ball.step();
@@ -86,13 +97,12 @@ public class EatNRunGame {
   }
 
   public void drawGame(Window window) {
-    window.setColor(0, 0, 0);
-    window.setFontSize(40);
     player.draw(window);
     blocks.forEach(block -> block.draw(window));
     monsters.forEach(monster -> monster.draw(window));
-    // window.drawStringCentered(scoreLeft + ":" + scoreRight, width * 0.5, PADDING
-    // + 60);
+    window.setColor(0, 0, 0);
+    window.setFontSize(20);
+    window.drawStringCentered("Cakes: " + cakes + " Lives: " + lives + " Level: " + level, width * 0.5, 30);
 
     // window.setColor(255, 0, 0);
     // north.draw(window);
