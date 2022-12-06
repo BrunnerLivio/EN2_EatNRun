@@ -51,16 +51,16 @@ public class Level {
         entity = new Finish(this, x, y);
         break;
       case 'E':
-        entity = new Monster(this, x, y, 2, 0);
+        entity = new Monster(this, x, y, Face.EAST);
         break;
       case 'N':
-        entity = new Monster(this, x, y, 0, -2);
+        entity = new Monster(this, x, y, Face.NORTH);
         break;
       case 'S':
-        entity = new Monster(this, x, y, 0, 2);
+        entity = new Monster(this, x, y, Face.SOUTH);
         break;
       case 'W':
-        entity = new Monster(this, x, y, -2, 0);
+        entity = new Monster(this, x, y, Face.WEST);
         break;
       case 'C':
         entity = new Cake(this, x, y);

@@ -1,6 +1,7 @@
 package eatnrun.entities;
 
 import eatnrun.core.Entity;
+import eatnrun.core.Face;
 import eatnrun.core.Level;
 import eatnrun.core.MoveableEntity;
 import eatnrun.core.handler.CollisionHandler;
@@ -8,13 +9,11 @@ import eatnrun.core.handler.StepHandler;
 import gui.Window;
 
 public class Monster extends MoveableEntity implements CollisionHandler, StepHandler {
-  private int vx;
-  private int vy;
+  private Face face;
 
-  public Monster(Level level, int x, int y, int vx, int vy) {
+  public Monster(Level level, int x, int y, Face face) {
     super(level, x, y, 40, 40, 5);
-    this.vx = vx;
-    this.vy = vy;
+    this.face = face;
   }
 
   @Override
@@ -23,8 +22,20 @@ public class Monster extends MoveableEntity implements CollisionHandler, StepHan
   }
 
   private void bounce() {
-    vx = vx * -1;
-    vy = vy * -1;
+    switch (face) {
+      case NORTH:
+        face = Face.SOUTH;
+        break;
+      case EAST:
+        face = Face.WEST;
+        break;
+      case SOUTH:
+        face = Face.NORTH;
+        break;
+      case WEST:
+        face = Face.EAST;
+        break;
+    }
   }
 
   @Override
@@ -36,7 +47,19 @@ public class Monster extends MoveableEntity implements CollisionHandler, StepHan
 
   @Override
   public void onStep() {
-    x = x + vx;
-    y = y + vy;
+    switch (face) {
+      case NORTH:
+        moveUp();
+        break;
+      case EAST:
+        moveRight();
+        break;
+      case SOUTH:
+        moveDown();
+        break;
+      case WEST:
+        moveLeft();
+        break;
+    }
   }
 }

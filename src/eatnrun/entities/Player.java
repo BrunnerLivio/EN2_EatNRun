@@ -1,15 +1,14 @@
 package eatnrun.entities;
 
-import java.util.ArrayList;
+import gui.Window;
+
 import java.util.List;
-import java.util.stream.Stream;
 
 import eatnrun.core.Entity;
 import eatnrun.core.Level;
 import eatnrun.core.MoveableEntity;
 import eatnrun.core.handler.CollisionHandler;
 import eatnrun.core.handler.EventHandler;
-import gui.Window;
 
 public class Player extends MoveableEntity implements EventHandler, CollisionHandler {
   public Player(Level level, int x, int y) {
@@ -28,23 +27,23 @@ public class Player extends MoveableEntity implements EventHandler, CollisionHan
     boolean pressedRight = window.isKeyPressed("right") || window.isKeyPressed("d");
     boolean pressedLeft = window.isKeyPressed("left") || window.isKeyPressed("a");
 
-    Stream<Block> blocks = level.getEntities().stream().filter(e -> e instanceof Block).map(e -> (Block) e);
+    List<Block> blocks = level.getEntities().stream().filter(e -> e instanceof Block).map(e -> (Block) e).toList();
 
     // Check whether it would collide with any block
     // If it would, then don't perform the action
-    if (pressedUp && !blocks.anyMatch(block -> block.intersects(this, 0, getSpeed() * -1))) {
+    if (pressedUp && !blocks.stream().anyMatch(block -> block.intersects(this, 0, getSpeed() * -1))) {
       moveUp();
     }
 
-    if (pressedDown && !blocks.anyMatch(block -> block.intersects(this, 0, getSpeed()))) {
+    if (pressedDown && !blocks.stream().anyMatch(block -> block.intersects(this, 0, getSpeed()))) {
       moveDown();
     }
 
-    if (pressedLeft && !blocks.anyMatch(block -> block.intersects(this, getSpeed() * -1, 0))) {
+    if (pressedLeft && !blocks.stream().anyMatch(block -> block.intersects(this, getSpeed() * -1, 0))) {
       moveLeft();
     }
 
-    if (pressedRight && !blocks.anyMatch(block -> block.intersects(this, getSpeed(), 0))) {
+    if (pressedRight && !blocks.stream().anyMatch(block -> block.intersects(this, getSpeed(), 0))) {
       moveRight();
     }
   }
