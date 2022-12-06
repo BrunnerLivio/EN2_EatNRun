@@ -6,8 +6,8 @@ public abstract class MoveableEntity extends Entity {
 
   private int speed;
 
-  public MoveableEntity(int x, int y, int width, int height, int speed) {
-    super(x, y, width, height);
+  public MoveableEntity(Level level, int x, int y, int width, int height, int speed) {
+    super(level, x, y, width, height);
     this.speed = speed;
   }
 

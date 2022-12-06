@@ -17,21 +17,14 @@ public class Level {
 
   private String[] mapData;
   private int levelNum;
-
-  private Player player;
-  private Finish finish;
-  private List<Block> blocks;
-  private List<Monster> monsters;
-  private List<Cake> cakes;
+  private List<Entity> entities;
+  private GameController game;
 
   private final int GRID_SIZE = 40;
 
-  public Level(int levelNum) {
+  public Level(GameController game, int levelNum) {
     this.levelNum = levelNum;
-
-    this.blocks = new ArrayList<>();
-    this.monsters = new ArrayList<>();
-    this.cakes = new ArrayList<>();
+    this.game = game;
   }
 
   private static String[] loadTextFile(int level) {
@@ -48,81 +41,76 @@ public class Level {
     }
   }
 
-  private void addEntityFromChar(char character, int row, int column) {
-    int x = column * GRID_SIZE;
-    int y = row * GRID_SIZE;
+  private Entity getEntityFromChar(char character, int x, int y) {
+    Entity entity = null;
     switch (character) {
       case '#':
-        blocks.add(new Block(x, y));
+        entity = new Block(this, x, y);
         break;
       case 'F':
-        finish = new Finish(x, y);
+        entity = new Finish(this, x, y);
         break;
       case 'E':
-        monsters.add(new Monster(x, y, 2, 0));
+        entity = new Monster(this, x, y, 2, 0);
         break;
       case 'N':
-        monsters.add(new Monster(x, y, 0, -2));
+        entity = new Monster(this, x, y, 0, -2);
         break;
       case 'S':
-        monsters.add(new Monster(x, y, 0, 2));
+        entity = new Monster(this, x, y, 0, 2);
         break;
       case 'W':
-        monsters.add(new Monster(x, y, -2, 0));
+        entity = new Monster(this, x, y, -2, 0);
         break;
       case 'C':
-        cakes.add(new Cake(x, y));
+        entity = new Cake(this, x, y);
         break;
       case 'P':
-        player = new Player(x, y);
+        entity = new Player(this, x, y);
       default:
         break;
     }
+    return entity;
+  }
+
+  public void removeEntity(Entity entity) {
+    entities.remove(entity);
+  }
+
+  public GameController getGame() {
+    return game;
   }
 
   public int getLevelNum() {
     return levelNum;
   }
 
-  public Player getPlayer() {
-    return player;
+  public List<Entity> getEntities() {
+    return new ArrayList<>(entities);
   }
 
-  public List<Block> getBlocks() {
-    return blocks;
-  }
-
-  public List<Monster> getMonsters() {
-    return monsters;
-  }
-
-  public List<Cake> getCakes() {
-    return new ArrayList<>(cakes);
-  }
-
-  public Finish getFinish() {
-    return finish;
-  }
-
-  public void removeCake(Cake cake) {
-    this.cakes.remove(cake);
+  public void finish() {
+    game.finishLevel(levelNum);
   }
 
   public void draw(Window window) {
-    player.draw(window);
-    finish.draw(window);
-    blocks.forEach(block -> block.draw(window));
-    monsters.forEach(monster -> monster.draw(window));
-    cakes.forEach(cake -> cake.draw(window));
+    entities.forEach(entity -> entity.draw(window));
   }
 
   public void start() {
     load();
 
+    entities = new ArrayList<>();
+
     for (int row = 0; row < mapData.length; row++) {
       for (int column = 0; column < mapData[row].length(); column++) {
         char character = mapData[row].charAt(column);
-        addEntityFromChar(character, row, column);
+        int x = column * GRID_SIZE;
+        int y = row * GRID_SIZE;
+        Entity entity = getEntityFromChar(character, x, y);
+        if (entity != null) {
+          entities.add(entity);
+        }
       }
     }
   }

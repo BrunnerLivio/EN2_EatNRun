@@ -1,12 +1,13 @@
 package eatnrun.entities;
 
 import eatnrun.core.Entity;
+import eatnrun.core.Level;
 import gui.Window;
 
 public class Finish extends Entity {
 
-  public Finish(int x, int y) {
-    super(x, y, 40, 40);
+  public Finish(Level level, int x, int y) {
+    super(level, x, y, 40, 40);
   }
 
   @Override

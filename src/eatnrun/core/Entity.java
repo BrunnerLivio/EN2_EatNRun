@@ -8,16 +8,23 @@ public abstract class Entity {
   protected int y;
   protected int height;
   protected int width;
+  protected Level level;
+
   private int initialX;
   private int initialY;
 
-  public Entity(int x, int y, int width, int height) {
+  public Entity(Level level, int x, int y, int width, int height) {
     this.x = x + width / 2;
     this.y = y + height / 2;
     this.initialX = this.x;
     this.initialY = this.y;
     this.height = height;
     this.width = width;
+    this.level = level;
+  }
+
+  public void destroy() {
+    level.removeEntity(this);
   }
 
   public void resetPosition() {
