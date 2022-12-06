@@ -4,7 +4,6 @@ import eatnrun.core.MoveableEntity;
 import gui.Window;
 
 public class Player extends MoveableEntity {
-
   public Player(int x, int y) {
     super(x, y, 40, 40, 5);
   }

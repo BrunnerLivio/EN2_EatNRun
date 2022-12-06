@@ -20,22 +20,6 @@ public abstract class Entity {
     this.width = width;
   }
 
-  public int getX() {
-    return x;
-  }
-
-  public int getY() {
-    return y;
-  }
-
-  public int getHeight() {
-    return height;
-  }
-
-  public int getWidth() {
-    return width;
-  }
-
   public void resetPosition() {
     x = initialX;
     y = initialY;

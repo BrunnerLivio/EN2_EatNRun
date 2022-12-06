@@ -30,6 +30,11 @@ public class EatNRunGame {
   private List<Level> levels;
 
   public EatNRunGame() {
+    createLevels();
+    startLevel(1);
+  }
+
+  private void createLevels() {
     this.levels = new ArrayList<>();
 
     int totalLevels = getNumberOfLevels();
@@ -37,11 +42,9 @@ public class EatNRunGame {
       Level level = new Level(i);
       levels.add(level);
     }
-
-    startLevel(1);
   }
 
-  public void startLevel(int levelNum) {
+  private void startLevel(int levelNum) {
     currentLevel = levels.get(levelNum - 1);
     currentLevel.start();
   }
@@ -56,7 +59,7 @@ public class EatNRunGame {
     }
   }
 
-  public void handleEvents(Window window) {
+  private void handleEvents(Window window) {
     boolean pressedUp = window.isKeyPressed("up") || window.isKeyPressed("w");
     boolean pressedDown = window.isKeyPressed("down") || window.isKeyPressed("s");
     boolean pressedRight = window.isKeyPressed("right") || window.isKeyPressed("d");
@@ -82,7 +85,7 @@ public class EatNRunGame {
     }
   }
 
-  public void step(Window window) {
+  private void step(Window window) {
     List<Monster> monsters = currentLevel.getMonsters();
     List<Cake> cakes = currentLevel.getCakes();
     List<Block> blocks = currentLevel.getBlocks();
@@ -130,16 +133,12 @@ public class EatNRunGame {
     }
   }
 
-  public void drawGame(Window window) {
+  private void drawGame(Window window) {
     currentLevel.draw(window);
     window.setColor(255, 255, 255);
     window.setFontSize(20);
     window.drawStringCentered("Cakes: " + score + " Lives: " + lives + " Level: " + currentLevel.getLevelNum(),
         WINDOW_WIDTH * 0.5, 30);
-  }
-
-  public GameStatus getStatus() {
-    return status;
   }
 
   public static void main(String[] args) {
@@ -151,7 +150,7 @@ public class EatNRunGame {
 
     while (window.isOpen()) {
 
-      switch (game.getStatus()) {
+      switch (game.status) {
         case RUNNING:
           game.handleEvents(window);
           game.step(window);

@@ -13,5 +13,4 @@ public class Cake extends Entity {
   public void draw(Window window) {
     window.drawImageCentered("resources/images/cake.png", x, y);
   }
-
 }

@@ -1,6 +1,6 @@
 package eatnrun;
 
-public enum GameStatus {
+enum GameStatus {
   RUNNING,
   WON,
   LOST
