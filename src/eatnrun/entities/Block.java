@@ -10,6 +10,7 @@ public class Block extends Entity {
 
   @Override
   public void draw(Window window) {
+    window.setColor(0, 0, 0);
     window.fillRect(x - width / 2, y - height / 2, width, height);
   }
 
