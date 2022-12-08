@@ -82,11 +82,13 @@ public class GameController {
   }
 
   public void handleEvents(Window window) {
-    currentLevel.getEntities()
-        .stream()
-        .filter(e -> e instanceof EventHandler)
-        .map(e -> (EventHandler) e)
-        .forEach(e -> e.handleEvents(window, currentLevel));
+    for (Entity entity : currentLevel.getEntities()) {
+      if (entity instanceof EventHandler) {
+        EventHandler eventHandler = (EventHandler) entity;
+        eventHandler.handleEvents(window, currentLevel);
+      }
+    }
+
   }
 
   public void step(Window window) {
