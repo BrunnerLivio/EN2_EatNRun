@@ -13,6 +13,10 @@ import eatnrun.entities.Monster;
 import eatnrun.entities.Player;
 import gui.Window;
 
+/**
+ * Represents one level.
+ * This class stores all the entities which should be rendered by this level
+ */
 public class Level {
 
   private String[] mapData;
@@ -42,35 +46,26 @@ public class Level {
   }
 
   private Entity getEntityFromChar(char character, int x, int y) {
-    Entity entity = null;
     switch (character) {
       case '#':
-        entity = new Block(this, x, y);
-        break;
+        return new Block(this, x, y);
       case 'F':
-        entity = new Finish(this, x, y);
-        break;
+        return new Finish(this, x, y);
       case 'E':
-        entity = new Monster(this, x, y, Face.EAST);
-        break;
+        return new Monster(this, x, y, Face.EAST);
       case 'N':
-        entity = new Monster(this, x, y, Face.NORTH);
-        break;
+        return new Monster(this, x, y, Face.NORTH);
       case 'S':
-        entity = new Monster(this, x, y, Face.SOUTH);
-        break;
+        return new Monster(this, x, y, Face.SOUTH);
       case 'W':
-        entity = new Monster(this, x, y, Face.WEST);
-        break;
+        return new Monster(this, x, y, Face.WEST);
       case 'C':
-        entity = new Cake(this, x, y);
-        break;
+        return new Cake(this, x, y);
       case 'P':
-        entity = new Player(this, x, y);
+        return new Player(this, x, y);
       default:
-        break;
+        return null;
     }
-    return entity;
   }
 
   public void removeEntity(Entity entity) {
@@ -102,11 +97,16 @@ public class Level {
 
     entities = new ArrayList<>();
 
+    // Go through all the rows (lines) of the map data
     for (int row = 0; row < mapData.length; row++) {
+
+      // Go through all the columns (characters) of the map data
       for (int column = 0; column < mapData[row].length(); column++) {
         char character = mapData[row].charAt(column);
+
         int x = column * GRID_SIZE;
         int y = row * GRID_SIZE;
+
         Entity entity = getEntityFromChar(character, x, y);
         if (entity != null) {
           entities.add(entity);

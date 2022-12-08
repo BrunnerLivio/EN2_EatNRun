@@ -16,11 +16,6 @@ public class Monster extends MoveableEntity implements CollisionHandler, StepHan
     this.face = face;
   }
 
-  @Override
-  public void draw(Window window) {
-    window.drawImageCentered("resources/images/monster.png", x, y);
-  }
-
   private void bounce() {
     switch (face) {
       case NORTH:
@@ -36,6 +31,11 @@ public class Monster extends MoveableEntity implements CollisionHandler, StepHan
         face = Face.EAST;
         break;
     }
+  }
+
+  @Override
+  public void draw(Window window) {
+    window.drawImageCentered("resources/images/monster.png", x, y);
   }
 
   @Override

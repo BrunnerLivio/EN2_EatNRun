@@ -4,6 +4,9 @@ import java.util.List;
 
 import gui.Window;
 
+/**
+ * Represents an entity which has the ability to move
+ */
 public abstract class MoveableEntity extends Entity {
 
   private int speed;
@@ -38,38 +41,47 @@ public abstract class MoveableEntity extends Entity {
     return speed;
   }
 
-  private int[] faceToCoordinates(Face face) {
-    int xOffset = 0;
-    int yOffset = 0;
+  /**
+   * Returns the X/Y position relative to the entity
+   * where it would move to, depending on the given face
+   */
+  private int[] getNextStepOfFace(Face face) {
+    int x = 0;
+    int y = 0;
 
     switch (face) {
       case NORTH:
-        yOffset = getSpeed() * -1;
+        y = getSpeed() * -1;
         break;
       case SOUTH:
-        yOffset = getSpeed();
-        break;
-      case EAST:
-        xOffset = getSpeed();
+        y = getSpeed();
         break;
       case WEST:
-        xOffset = getSpeed() * -1;
+        x = getSpeed() * -1;
+        break;
+      case EAST:
+        x = getSpeed();
         break;
     }
 
-    return new int[] { xOffset, yOffset };
+    return new int[] { x, y };
   }
 
-  public boolean canMove(List<Entity> entities, Face face) {
-    int[] offsets = faceToCoordinates(face);
+  /**
+   * Whether the entity can move to the given direction
+   * @param face The direction it should check
+   * @param entities All the entities which should be able to block this entity
+   */
+  public boolean canMove(Face face, List<Entity> blockingEntities) {
+    int[] offsets = getNextStepOfFace(face);
 
     int xOffset = offsets[0];
     int yOffset = offsets[1];
 
     boolean intersects = false;
     int i = 0;
-    while (!intersects && i < entities.size()) {
-      intersects = entities.get(i).intersects(this, xOffset, yOffset);
+    while (!intersects && i < blockingEntities.size()) {
+      intersects = blockingEntities.get(i).intersects(this, xOffset, yOffset);
       i++;
     }
     return !intersects;

@@ -18,8 +18,7 @@ public class EatNRunGame {
 
       switch (game.getStatus()) {
         case RUNNING:
-          game.handleEvents(window);
-          game.step(window);
+          game.callHandlers(window);
           game.drawGame(window);
           break;
         case WON:

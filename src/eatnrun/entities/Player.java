@@ -35,27 +35,27 @@ public class Player extends MoveableEntity implements EventHandler, CollisionHan
   }
 
   @Override
-  public void handleEvents(Window window, Level level) {
+  public void handleEvents(Window window) {
     boolean pressedUp = window.isKeyPressed("up") || window.isKeyPressed("w");
     boolean pressedDown = window.isKeyPressed("down") || window.isKeyPressed("s");
     boolean pressedRight = window.isKeyPressed("right") || window.isKeyPressed("d");
     boolean pressedLeft = window.isKeyPressed("left") || window.isKeyPressed("a");
 
-    List<Entity> blocks = getBlocks();
+    List<Entity> blockingEntities = getBlocks();
 
-    if (pressedUp && canMove(blocks, Face.NORTH)) {
+    if (pressedUp && canMove(Face.NORTH, blockingEntities)) {
       moveUp();
     }
 
-    if (pressedDown && canMove(blocks, Face.SOUTH)) {
+    if (pressedDown && canMove(Face.SOUTH, blockingEntities)) {
       moveDown();
     }
 
-    if (pressedLeft && canMove(blocks, Face.WEST)) {
+    if (pressedLeft && canMove(Face.WEST, blockingEntities)) {
       moveLeft();
     }
 
-    if (pressedRight && canMove(blocks, Face.EAST)) {
+    if (pressedRight && canMove(Face.EAST, blockingEntities)) {
       moveRight();
     }
   }

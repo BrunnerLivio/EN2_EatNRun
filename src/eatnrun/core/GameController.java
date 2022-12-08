@@ -12,6 +12,14 @@ import eatnrun.core.handler.StepHandler;
 import eatnrun.util.Sound;
 import gui.Window;
 
+/**
+ * The Game controller is the engine of the game
+ * 
+ * - It makes sure to call handlers at the right time
+ * - It keeps track of the current level
+ * - It keeps track of the score
+ * - It keeps track of the lives
+ */
 public class GameController {
   private int score = 0;
   private int lives = 5;
@@ -51,10 +59,6 @@ public class GameController {
     currentLevel.start();
   }
 
-  public GameStatus getStatus() {
-    return status;
-  }
-
   public void incrementScore() {
     score++;
     Sound.playSound(Sound.SLURP);
@@ -81,29 +85,41 @@ public class GameController {
     }
   }
 
-  public void handleEvents(Window window) {
-    for (Entity entity : currentLevel.getEntities()) {
-      if (entity instanceof EventHandler) {
-        EventHandler eventHandler = (EventHandler) entity;
-        eventHandler.handleEvents(window, currentLevel);
-      }
-    }
-
-  }
-
-  public void step(Window window) {
+  // NOTE: This function is bascially the heart of my approach
+  // =========================================================
+  //
+  // When I started with the project, I've realized that my program is
+  // not very cohesive. For instance; the actions when e.g. the Player
+  // collides with a Block were not handled within the Player class.
+  //
+  // I took inspiration from game engines such as Unity and wanted to
+  // let an Entity class handle certain events. Therefore I came up
+  // with this handler approach. I had to sacrifice performance due to
+  // this, though my goal was to write cohesive and clean code, rather than
+  // look out for performance.
+  //
+  // Though the beauty of this approach is that you'll find all the information
+  // and actions of e.g. a Player within a Player class. Adding new entites with
+  // different functionality is quite easy and readable.
+  /**
+   * Iterate through all the entities
+   * 
+   * If the entity implements one of the following interface(s), then call its
+   * handler:
+   * - CollisionHandler
+   * - StepHandler
+   * - EventHandler
+   */
+  public void callHandlers(Window window) {
     List<Entity> entities = currentLevel.getEntities();
     for (Entity entity1 : entities) {
-
       for (Entity entity2 : entities) {
-        if (entity1 == entity2) {
+        if (entity1 == entity2 || !(entity1 instanceof CollisionHandler)) {
           continue;
         }
 
-        if (!(entity1 instanceof CollisionHandler)) {
-          continue;
-        }
         CollisionHandler target = (CollisionHandler) entity1;
+        // There is a collision => Notify the entity
         if (target.intersects(entity2)) {
           target.onCollide(entity2);
         }
@@ -111,6 +127,11 @@ public class GameController {
       if (entity1 instanceof StepHandler) {
         StepHandler target = (StepHandler) entity1;
         target.onStep();
+      }
+
+      if (entity1 instanceof EventHandler) {
+        EventHandler eventHandler = (EventHandler) entity1;
+        eventHandler.handleEvents(window);
       }
     }
   }
@@ -123,4 +144,7 @@ public class GameController {
         windowWidth * 0.5, 30);
   }
 
+  public GameStatus getStatus() {
+    return status;
+  }
 }
