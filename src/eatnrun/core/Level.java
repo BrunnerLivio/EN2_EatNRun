@@ -89,7 +89,9 @@ public class Level {
   }
 
   public void draw(Window window) {
-    entities.forEach(entity -> entity.draw(window));
+    for(Entity entity: entities) {
+      entity.draw(window);
+    }
   }
 
   public void start() {

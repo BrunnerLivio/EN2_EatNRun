@@ -1,0 +1,60 @@
+@startuml
+
+left to right direction
+
+class EatNRunGame {}
+
+
+
+namespace core {
+
+  enum Face {}
+
+  class GameController {}
+  
+  enum GameStatus {}
+
+  class Level {}
+
+  abstract class Entity {}
+
+  abstract class MoveableEntity {}
+
+  namespace handler {
+    interface CollisionHandler {}
+    interface EventHandler {}
+    interface StepHandler {}
+  }
+}
+
+
+namespace entities {
+class Monster {}
+
+class Player {}
+
+class Block {}
+
+class Cake {}
+
+class Finish {}
+}
+
+
+entities.Monster -|> core.MoveableEntity
+entities.Monster -|> core.handler.CollisionHandler
+entities.Monster -|> core.handler.EventHandler
+
+entities.Player -|> core.MoveableEntity
+entities.Player -|> core.handler.CollisionHandler
+entities.Player -|> core.handler.StepHandler
+
+entities.Block -|> core.Entity
+entities.Cake -|> core.Entity
+entities.Finish -|> core.Entity
+core.MoveableEntity -|> core.Entity
+
+
+
+
+@enduml
